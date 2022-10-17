@@ -1,0 +1,55 @@
+
+###############################################################################
+####                                                                        ###
+#### TITLE     : FLETA HCP MODULE(hcp.his.test.com)                         ###
+#### DATA TIME : 2022-10-17 09:01:47                                        ###
+####                                                                        ###
+###############################################################################
+
+###***SERIAL.START***###
+
+---SERIAL.END---
+###***HOSTNAME.START***###
+hcp.his.test.com
+---HOSTNAME.END---
+###***OVERVIEW.START***###
+
+---OVERVIEW.END---
+###***TENANTS.LIST.START***###
+
+---TENANTS.LIST.END---
+
+
+###***TENANTS.SUB.START***###
+
+---TENANTS.SUB.END---
+###***USERDATA.START***###
+
+---USERDATA.END---
+###***EVENTS.MAJOR.START***###
+
+---EVENTS.MAJOR.END---
+###***EVENTS.ALL.START***###
+
+---EVENTS.ALL.END---
+###***EVENTS.ALL.START***###
+
+---EVENTS.SECURITY.END---
+###***SERVICES.STATUS.START***###
+
+---SERVICES.STATUS.END---
+###***ALLOWEDIP.START***###
+
+---ALLOWEDIP.END---
+###***NODE.START***###
+serial : 
+---NODE.END---
+###***NODE.DETAIL.START***###
+---NODE.DETAIL.END---
+###***TENENTS.URL.START***###
+---TENENTS.URL.END---
+
+###############################################################################
+####  END  -  DATA TIME : 2022-10-17 09:05:47                                ###
+###############################################################################
+

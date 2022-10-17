@@ -1,0 +1,13 @@
+import os
+from python_hosts import Hosts, HostsEntry
+if os.path.isfile('hcp1') :
+    os.remove('hcp1')
+hosts = Hosts(path='hcp1')
+new_entry = HostsEntry(entry_type='ipv4', address='121.170.193.201', names=['www.ibrm.com', 'ibrm'])
+hosts.add([new_entry])
+hosts.write()
+
+
+
+cmd = 'ping www.ibrm.com'
+print(os.popen(cmd).read())

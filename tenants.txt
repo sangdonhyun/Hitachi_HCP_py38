@@ -1,0 +1,754 @@
+
+
+
+
+<div class="contentDiv">
+<table class="filterSortPageTableData tableExpand" cellpadding="0" cellspacing="0" border="0" style="width:100%">
+    <tbody>
+    
+        
+            
+
+
+
+
+
+
+
+<tr id="titleRow_00000000-0000-0000-0000-000000000000" class="titleRow">
+    
+        
+        
+            <td class="titleLeft arrow name">
+                <span class="arrow"></span>
+                <span class="ellipses">Default</span>
+            </td>
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+            <td class="titleMain evenCol alerts">
+                
+            </td>
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+            <td class="titleRight storageUsed">
+                
+                    <div class="quotaLeft">10.46 MB</div>
+                
+            </td>
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight quota">
+                No Quota
+            </td>
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight icons">
+                
+                    
+                    <span class="tableIcon iconButton jqueryLink" title="Administer this tenant" style="background-image: url(/images/icons/administer.png);" rdiv="https://Default.hcp.his.test.com:8000"></span>
+                
+            </td>
+        
+    
+</tr>
+
+<!-- Dropdown Information -->
+<tr id="infoRow_00000000-0000-0000-0000-000000000000" class="infoRow" style="display: none">
+    <td class="info" colspan="7">
+        
+            <div id="infoContent_00000000-0000-0000-0000-000000000000" class="infoContent" style="display: none" rdiv="/cluster/tenant_input.action?uuId=00000000-0000-0000-0000-000000000000&rowIndex=0"></div>
+        
+        
+    </td>
+</tr>
+        
+            
+
+
+
+
+
+
+
+<tr id="titleRow_0cf3b8ae-0382-473d-a9f0-8df3ad8dfbf6" class="titleRow">
+    
+        
+        
+            <td class="titleLeft arrow name">
+                <span class="arrow"></span>
+                <span class="ellipses">fleta</span>
+            </td>
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+            <td class="titleMain evenCol alerts">
+                
+            </td>
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+            <td class="titleRight storageUsed">
+                
+                    
+                    
+                        <div style="float: left; width: 75px; padding-right: 8px; text-align: right;">2.66 MB</div>
+                    
+                    <div class="percentQuota"><div class="percentUsed" style="width: 0%"><span></span></div></div>
+                
+            </td>
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight quota">
+                of 100.00 GB
+            </td>
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight icons">
+                
+                    
+                    <span class="tableIcon iconButton jqueryLink" title="Administer this tenant" style="background-image: url(/images/icons/administer.png);" rdiv="https://fleta.hcp.his.test.com:8000"></span>
+                
+            </td>
+        
+    
+</tr>
+
+<!-- Dropdown Information -->
+<tr id="infoRow_0cf3b8ae-0382-473d-a9f0-8df3ad8dfbf6" class="infoRow" style="display: none">
+    <td class="info" colspan="7">
+        
+            <div id="infoContent_0cf3b8ae-0382-473d-a9f0-8df3ad8dfbf6" class="infoContent" style="display: none" rdiv="/cluster/tenant_input.action?uuId=0cf3b8ae-0382-473d-a9f0-8df3ad8dfbf6&rowIndex=1"></div>
+        
+        
+    </td>
+</tr>
+        
+            
+
+
+
+
+
+
+
+<tr id="titleRow_5fe48e0e-2264-467c-b84f-6aa0103e14d6" class="titleRow">
+    
+        
+        
+            <td class="titleLeft arrow name">
+                <span class="arrow"></span>
+                <span class="ellipses">hcpanywhere</span>
+            </td>
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+            <td class="titleMain evenCol alerts">
+                
+            </td>
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+            <td class="titleRight storageUsed">
+                
+                    
+                    
+                        <div style="float: left; width: 75px; padding-right: 8px; text-align: right;">0.00 bytes</div>
+                    
+                    <div class="percentQuota"><div class="percentUsed" style="width: 0%"><span></span></div></div>
+                
+            </td>
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight quota">
+                of 2.00 TB
+            </td>
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight icons">
+                
+                    
+                    <span class="tableIcon  " title="" style="background-image: none;" rdiv=""></span>
+                
+                    
+                    <span class="tableIcon iconButton jqueryDelete" title="Delete tenant hcpanywhere" style="background-image: url(/images/icons/panel-delete.png);" rdiv="/cluster/tenants_delete.action?uuId=5fe48e0e-2264-467c-b84f-6aa0103e14d6&filterType=&filterString=&sortBy=&reverse=false&count=0&targetName="></span>
+                
+            </td>
+        
+    
+</tr>
+
+<!-- Dropdown Information -->
+<tr id="infoRow_5fe48e0e-2264-467c-b84f-6aa0103e14d6" class="infoRow" style="display: none">
+    <td class="info" colspan="7">
+        
+            <div id="infoContent_5fe48e0e-2264-467c-b84f-6aa0103e14d6" class="infoContent" style="display: none" rdiv="/cluster/tenant_input.action?uuId=5fe48e0e-2264-467c-b84f-6aa0103e14d6&rowIndex=2"></div>
+        
+        
+    </td>
+</tr>
+        
+            
+
+
+
+
+
+
+
+<tr id="titleRow_5d859310-fdfb-4094-9f81-0e42ffa426f9" class="titleRow">
+    
+        
+        
+            <td class="titleLeft arrow name">
+                <span class="arrow"></span>
+                <span class="ellipses">kumjeong</span>
+            </td>
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+            <td class="titleMain evenCol alerts">
+                
+            </td>
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+            <td class="titleRight storageUsed">
+                
+                    
+                    
+                        <div style="float: left; width: 75px; padding-right: 8px; text-align: right;">24.00 KB</div>
+                    
+                    <div class="percentQuota"><div class="percentUsed" style="width: 0%"><span></span></div></div>
+                
+            </td>
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight quota">
+                of 2.00 TB
+            </td>
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight icons">
+                
+                    
+                    <span class="tableIcon  " title="" style="background-image: none;" rdiv=""></span>
+                
+            </td>
+        
+    
+</tr>
+
+<!-- Dropdown Information -->
+<tr id="infoRow_5d859310-fdfb-4094-9f81-0e42ffa426f9" class="infoRow" style="display: none">
+    <td class="info" colspan="7">
+        
+            <div id="infoContent_5d859310-fdfb-4094-9f81-0e42ffa426f9" class="infoContent" style="display: none" rdiv="/cluster/tenant_input.action?uuId=5d859310-fdfb-4094-9f81-0e42ffa426f9&rowIndex=3"></div>
+        
+        
+    </td>
+</tr>
+        
+            
+
+
+
+
+
+
+
+<tr id="titleRow_c6519cf4-ed6b-4111-a974-f47a07b4c656" class="titleRow">
+    
+        
+        
+            <td class="titleLeft arrow name">
+                <span class="arrow"></span>
+                <span class="ellipses">minsoo</span>
+            </td>
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+            <td class="titleMain evenCol alerts">
+                
+            </td>
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+            <td class="titleRight storageUsed">
+                
+                    
+                    
+                        <div style="float: left; width: 75px; padding-right: 8px; text-align: right;">15.31 GB</div>
+                    
+                    <div class="percentQuota"><div class="percentUsed" style="width: 0%"><span></span></div></div>
+                
+            </td>
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight quota">
+                of 2.00 TB
+            </td>
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight icons">
+                
+                    
+                    <span class="tableIcon  " title="" style="background-image: none;" rdiv=""></span>
+                
+            </td>
+        
+    
+</tr>
+
+<!-- Dropdown Information -->
+<tr id="infoRow_c6519cf4-ed6b-4111-a974-f47a07b4c656" class="infoRow" style="display: none">
+    <td class="info" colspan="7">
+        
+            <div id="infoContent_c6519cf4-ed6b-4111-a974-f47a07b4c656" class="infoContent" style="display: none" rdiv="/cluster/tenant_input.action?uuId=c6519cf4-ed6b-4111-a974-f47a07b4c656&rowIndex=4"></div>
+        
+        
+    </td>
+</tr>
+        
+            
+
+
+
+
+
+
+
+<tr id="titleRow_9d8d71b5-9504-4546-9bd2-be9790d33939" class="titleRow">
+    
+        
+        
+            <td class="titleLeft arrow name">
+                <span class="arrow"></span>
+                <span class="ellipses">minsoo2</span>
+            </td>
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+            <td class="titleLeft network">
+                <span class="ellipses">[hcp_system]</span>
+            </td>
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+            <td class="titleMain evenCol alerts">
+                
+            </td>
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+            <td class="titleRight storageUsed">
+                
+                    
+                    
+                        <div style="float: left; width: 75px; padding-right: 8px; text-align: right;">735.65 MB</div>
+                    
+                    <div class="percentQuota"><div class="percentUsed" style="width: 0%"><span></span></div></div>
+                
+            </td>
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight quota">
+                of 2.00 TB
+            </td>
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+            <td class="titleRight icons">
+                
+                    
+                    <span class="tableIcon  " title="" style="background-image: none;" rdiv=""></span>
+                
+            </td>
+        
+    
+</tr>
+
+<!-- Dropdown Information -->
+<tr id="infoRow_9d8d71b5-9504-4546-9bd2-be9790d33939" class="infoRow" style="display: none">
+    <td class="info" colspan="7">
+        
+            <div id="infoContent_9d8d71b5-9504-4546-9bd2-be9790d33939" class="infoContent" style="display: none" rdiv="/cluster/tenant_input.action?uuId=9d8d71b5-9504-4546-9bd2-be9790d33939&rowIndex=5"></div>
+        
+        
+    </td>
+</tr>
+        
+    
+    </tbody>
+</table>
+<input type="hidden" name="" value="1" id="" class="minInterval"/>
+<input type="hidden" name="" value="6" id="" class="maxInterval"/>
+<input type="hidden" name="" value="6" id="" class="totalEntries"/>
+<input type="hidden" name="" value="1" id="" class="numPages"/>
+</div>
