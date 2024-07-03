@@ -436,10 +436,10 @@ curl -k -i -H "Accept: application/xml" -H "Authorization: HCP YWRtaW4=:ee624467
     def fileTran(self):
         try:
             cfg = configparser.RawConfigParser()
-            cfg_file = os.path.join('config','config.cfg')
+            cfg_file = os.path.join('config', 'config.cfg')
             cfg.read(cfg_file)
-            tarn= cfg.get('server','tran',fallback='SOCKET')
-            targetDir = cfg.get('server','targetDir',fallback='HCP.disk')
+            tarn= cfg.get('server', 'tran', fallback='SOCKET')
+            targetDir = cfg.get('server', 'targetDir', fallback='HCP.disk')
         except Exception as e:
             print(str(e))
             tarn = 'SOCKET'

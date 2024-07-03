@@ -1,0 +1,1988 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <!--Hide HTML until JS frame breaker corrects the location-->
+        <style>html{display:none;}</style>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <title>Tenants - Hitachi Content Platform</title>
+        <link rel="SHORTCUT ICON" href="/favicon.ico"/>
+
+        <link rel="stylesheet" type="text/css" media="screen" href="/etc/css/3rdparty/jquery-ui-1.12.1/jquery-ui-1.12.1.css?version=9.4.0.267-"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="/etc/css/hcp/hcp-styles.css?version=9.4.0.267-"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="/etc/css/hcp/cluster/security/active-directory-filter.css?version=9.4.0.267-"/>
+        <!--[if !IE 7]><!-->
+            <link rel="stylesheet" type="text/css" media="screen" href="/etc/css/hcp/hcp-styles-standard.css?version=9.4.0.267-"/>
+        <!--<![endif]-->
+        <!--[if IE 7]>
+            <link rel="stylesheet" type="text/css" media="screen" href="/etc/css/hcp/hcp-styles-ie7.css?version=9.4.0.267-"/>
+        <![endif]-->
+
+        <link rel="stylesheet" type="text/css" media="screen" href="/etc/css/3rdparty/jquery.weekcalendar.css?version=9.4.0.267-"/>
+
+        <style type="text/css">
+            /*--- Tenant and Namespace Features ---*/
+    div.features { padding: 15px; background-color: #eee; }
+    div.features td.feature { width: 160px; padding: 0px 10px 0px 20px; }
+    div.features div.description { margin-top: 8px; color: #555; padding-left: 3px; }
+    div.features div.input { margin-top: 8px; }
+        </style>
+
+
+            <script type="text/javascript" src="/etc/js/3rdparty/jquery-3.5.1.min.js?version=9.4.0.267-"></script>
+            <script type="text/javascript" src="/etc/js/masterCluster.min.js?version=9.4.0.267-"></script>
+
+
+
+
+        <script type="text/javascript">
+            //JS frame breaker
+            if (self === top) {
+                document.documentElement.style.display = 'block' ;
+            } else {
+                top.location = self.location;
+            }
+            function setUpForDefaultTenant() {
+        var $tenantName = $('#tenantName');
+        $tenantName.prop("disabled", true);
+        $tenantName.attr("value", 'Default');
+
+        $('#createUsernamePassword').fadeSlideUp(500);
+        $('#authenticatedTenantFeatures').hide();
+        $('#pe-create-tags').hide();
+        $('#defaultTenantFeatures').fadeIn(300);
+        $('#networkSelectionDiv').hide();
+    };
+    function setUpForAuthenticatedTenant() {
+        $('#tenantName').prop("disabled", false);
+        var tenName = document.getElementById("tenantName").value;
+        if (tenName == 'Default') {
+            $('#tenantName').attr("value", "");
+        }
+
+        $('#createUsernamePassword').fadeSlideDown(500);
+        $('#defaultTenantFeatures').hide();
+        $('#pe-create-tags').fadeIn(300);
+        $('#authenticatedTenantFeatures').fadeIn(300);
+        $('#networkSelectionDiv').fadeIn(300);
+        HCP_ADMIN.Tags.resetTags($("div.tagsPanel", $('#pe-create-tags')));
+    };
+    function panelShown(key) {
+        if (key == 'create') {
+            var checked = $('#makeDefaultTenant').prop('checked');
+            if (checked) { setUpForDefaultTenant(); }
+            else { setUpForAuthenticatedTenant(); }
+
+            $('#tenantName').trigger("focus");
+        } else if (key == 'create-contact') {
+             $('#contactPanelOpenField').val(true);
+        } else if (key == 'create-tags') {
+             $('#tagsPanelOpenField').val(true);
+        }
+    }
+    function panelHidden(key) {
+        if (key == 'create-contact') {
+            $('#contactPanelOpenField').val(false);
+        } else if (key == 'create-tags') {
+            $('#tagsPanelOpenField').val(false);
+        }
+    }
+            $(document).ready(function() {
+                initializeLogger(false);
+                consoleLog.groupCollapsed("Master Cluster Init");
+                consoleLog.time("all javascript masterCluster");
+                setTimer(document, 7210, true);
+                HCP_ADMIN.startActivityChecker(document, 7210, "/cluster/activityDetected.action");
+                $(document).ajaxComplete(function(event,request, settings){
+                    var resetTimer = request.getResponseHeader('resetTimer');
+                    if (resetTimer != 'false') {
+                        setTimer(document, 7210, true);
+                        HCP_ADMIN.checkLoggedIn(event, request, settings);
+                    }
+                });
+                // If we receive the startup page as the result of an ajax call, we want
+                // to redirect the document to it, not stick it in the middle of the page.
+                // Note that we can't use ajaxComplete here since it doesn't get called after
+                // we do a load().
+                $(document).ajaxSuccess(function(event, request, settings) {
+                    var pageName = request.getResponseHeader('Page-Name');
+                    if (pageName == 'StartupPage') {
+                        // Set completion function to null so jQuery won't try to load content
+                        settings.complete = null;
+                        document.location.href = "/cluster/systemStartup.action";
+                    } else if (pageName == 'ChangePasswordPage') {
+                        // Set completion function to null so jQuery won't try to load content
+                        settings.complete = null;
+                        document.location.href = "/cluster/changePassword_input.action";
+                        settings.uri = "/cluster/changePassword_input.action";
+                    }
+                });
+                // If we receive an authorization error as the result of an ajax call, just
+                // reload the entire page. That will let the login page be displayed properly.
+                $(document).ajaxError(function(event, request, settings) {
+                    if (request.status == 401 || request.status == 403) {
+                        window.location.reload();
+                    }
+                });
+                //the following is a fix for z-index order for doc and main menus
+                var zIndexNumber = 1000;
+                $('#docNavWrap, #mainNavWrap').each(function() {
+                    $(this).css('zIndex', zIndexNumber);
+                    zIndexNumber -= 10;
+                });
+                initializeSuperfishMenu();
+                initializeFixedHeaderTables();
+                initializeCheckboxesAndButtons();
+                initializeTabIndexes();
+                initializeTooltips();
+                preloadImages();
+
+                var maxSpanWidth = 150;
+                $("#userNameString").createEllipsesIfTooWide(maxSpanWidth, false);
+
+                consoleLog.timeEnd("all javascript masterCluster");
+                consoleLog.time("all javascript tenants page");
+    initializeExpandablePanel(panelShown, panelHidden);
+    setUpDynamicTextFillInFromInputField('#tenantName', '#authenticatedTenantNameForLabel', '#createCancel');
+
+
+
+
+
+    $('#createCancelDiv').on("click", function() { setUpForAuthenticatedTenant(); });
+    $('#makeDefaultTenant').on('change', function() {
+        var checked = $(this).prop('checked');
+
+        if (checked) { setUpForDefaultTenant(); }
+        else { setUpForAuthenticatedTenant(); }
+    });
+    $('input.authScheme').on('change', function() {
+        if ($(this).val() == 'LOCAL') {
+            $('#externalUser').fadeOut('fast', function() {
+                $('#localUser').fadeIn('fast');
+            });
+        } else {
+            $('#localUser').fadeOut('fast', function() {
+                $('#externalUser').fadeIn('fast');
+            });
+        }
+    });
+
+    $('.selectServicePlans').on("click", function() {
+        var inputId = $(this).prev('input').attr('id');
+        if ( !$('#' + inputId).prop('disabled') ) {
+            showFixedOverlay(this, $(this).attr('rdiv'), '870px', 'Select Service Plan', '_top');
+        }
+        return false;
+    });
+
+    $('#manageTagsTenantsId').on("click", function() {
+        showOverlay(this, $(this).attr('rdiv'), '870px', 'Tags', '_top');
+
+        return false;
+    });
+                consoleLog.groupEnd("Master Cluster Init");
+            });
+        </script>
+    </head>
+
+    <body>
+
+        <div id="date-version" class="clearfix">
+            <div class="dateTime">
+                Fri Jan 27 2023 1:48:54 PM KST
+            </div>
+            <div class="versionInfo">
+
+
+                    v9.4.0.267
+
+
+
+                    | Serial Number: 55695
+
+            </div>
+        </div>
+
+        <div id="mainContent">
+            <!-- Main Header -->
+            <div class="mainHeader">
+                <div id="productNameString">
+                    Hitachi Content Platform<br />
+                    <span>System Management Console</span>
+                </div>
+                <div id="companyLogo" class="companyLogo"></div>
+            </div>
+
+            <!-- Docs Navigation -->
+            <div id="docNavWrap">
+                <ul id="docNav" class="sf-menu">
+                    <li style="background-image: url(/images/icon-documentation-download-v7.png); cursor:pointer;">
+                        <a href="javascript:void(0);">&nbsp;</a>
+                        <ul class="subNav" style="display: none;">
+                            <li class="header"><span>Documentation</span></li>
+                            <li><a href="/help/HCPSystemManagementHelp/c_hcp_system_mgmt_help_welcome.html" target="hcpDocs">System Management Help</a></li>
+                            <li><a href="/help/HCPSystemManagementHelp.zip" target="hcpDocs">Download System Management Help</a></li>
+                            <li><a href="https://knowledge.hitachivantara.com/Documents/Storage/Content_Platform" target="hcpDocs">Product Documentation</a></li>
+                        </ul>
+                    </li>
+
+
+
+                    <li style="background-image: url(/images/icon-logout-user-v7.png);">
+
+                        <span id="userNameString" class="loggedInUser">User: admin</span>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/cluster/logout.action" title="Log out">Log Out</a>
+
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+
+                            <a href="/cluster/changePassword_input.action" title="Change Password">Password</a>
+
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Navigation -->
+            <div id="mainNavWrap">
+                <ul id="mainNav" class="sf-menu">
+                    <!-- Overview -->
+
+                        <li class="">
+                            <a href="/cluster/clusterOverview.action">Overview</a>
+                        </li>
+
+
+                    <!-- Nodes -->
+
+
+                        <li class="">
+                            <a href="/cluster/nodeList.action">Hardware</a>
+                        </li>
+
+
+                    <!-- Storage -->
+
+
+                        <li class="">
+                            <a href="/cluster/storage_input.action">Storage</a>
+                        </li>
+
+
+                    <!-- Tenants -->
+
+
+                        <li class="current">
+                            <a href="/cluster/tenants_input.action">Tenants</a>
+                        </li>
+
+
+                    <!-- Services -->
+
+
+                        <li class="">
+                            <a href="/cluster/scheduleServices_input.action">Services</a>
+                            <ul>
+                                <li class="">
+
+                                    <a href="/cluster/scheduleServices_input.action">Schedule</a>
+                                </li>
+                                <li class="">
+
+                                    <a href="/cluster/capacityBalancing_input.action">S Series Balancing</a>
+                                </li>
+                                <li class="">
+
+
+                                        <a href="/cluster/compressionSettings_input.action">Compression/Encryption</a>
+
+
+                                </li>
+                                <li class="">
+
+                                    <a href="/cluster/contentVerificationSettings_input.action">Content Verification</a>
+                                </li>
+                                <li class="">
+
+                                    <a href="/cluster/dupElimSettings_input.action">Duplicate Elimination</a>
+                                </li>
+                                <li class="">
+
+                                    <a href="/cluster/garbageCollectionSettings_input.action">Garbage Collection</a>
+                                </li>
+                                <li class="">
+
+                                    <a href="/cluster/erasureCoding_input.action">Geo-distributed EC</a>
+                                </li>
+                                <li class="">
+
+                                    <a href="/cluster/migration_input.action">Migration</a>
+                                </li>
+                                <li class="">
+
+                                    <a href="/cluster/replication_input.action">Replication</a>
+                                </li>
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/searchSettings_input.action">Search</a>
+                                    </li>
+
+
+                                <li class="">
+
+                                    <a href="/cluster/shreddingSettings_input.action">Shredding</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                    <!-- Security -->
+
+
+
+
+
+
+                        <li class="">
+                            <a href="/cluster/permissionsSettings_input.action">Security</a>
+                            <ul>
+
+                                    <li class="">
+
+                                        <a href="/cluster/permissionsSettings_input.action">Permissions</a>
+                                    </li>
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/ssl_input.action">Domains & Certificates</a>
+                                    </li>
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/networkSecurity_input.action">Network Security</a>
+                                    </li>
+
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/consoleSecurity_input.action">Console Security</a>
+                                    </li>
+                                    <li class="">
+
+                                        <a href="/cluster/mapi_input.action">MAPI</a>
+                                    </li>
+
+
+                                        <li class="">
+
+                                            <a href="/cluster/searchSecurity_input.action">Search Security</a>
+                                        </li>
+
+
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/users_input.action">Users</a>
+                                    </li>
+
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/supportAccessCredentials_input.action">Support Access Credentials</a>
+                                    </li>
+
+
+
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/authentication_input.action">Active Directory</a>
+                                    </li>
+
+                                    <li class="">
+
+                                        <a href="/cluster/radius_input.action">RADIUS</a>
+                                    </li>
+
+
+                                        <li class="">
+
+                                            <a href="/cluster/kmip_input.action">Key Management</a>
+                                        </li>
+
+                                        <li class="">
+
+                                            <a href="/cluster/encryption_input.action">Encryption</a>
+                                        </li>
+
+
+
+                            </ul>
+                        </li>
+
+
+                    <!-- Monitoring -->
+
+
+                        <li class="">
+                            <a href="/cluster/systemEvents_input.action">Monitoring</a>
+                            <ul>
+                                <li class="">
+
+                                    <a href="/cluster/systemEvents_input.action">System Events</a>
+                                </li>
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/resourceMonitoring_input.action">Resources</a>
+                                    </li>
+
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/syslogSettings_input.action">Syslog</a>
+                                    </li>
+                                    <li class="">
+
+                                        <a href="/cluster/snmp_input.action">SNMP</a>
+                                    </li>
+                                    <li class="">
+
+                                        <a href="/cluster/email_input.action">Email</a>
+                                    </li>
+
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/chargeBack_input.action">Chargeback</a>
+                                    </li>
+
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/internalLogs_input.action">Internal Logs</a>
+                                    </li>
+
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/healthCheck_input.action">Health Check Reports</a>
+                                    </li>
+
+
+
+
+                            </ul>
+                        </li>
+
+
+                    <!-- Configuration -->
+
+
+                        <li class="">
+
+
+
+
+
+                            <a href="/cluster/brandSettings_input.action">Configuration</a>
+                            <ul>
+
+
+                                    <li class="">
+
+                                        <a href="/cluster/brandSettings_input.action">Branding</a>
+                                    </li>
+                                    <li class="">
+
+                                        <a href="/cluster/networks_input.action">Networks</a>
+                                    </li>
+
+                                        <li class="">
+
+                                            <a href="/cluster/protocolOptimizeSettings_input.action">Protocol Optimization</a>
+                                        </li>
+
+
+                            </ul>
+                        </li>
+
+                </ul>
+            </div>
+
+            <!-- Body Content -->
+            <div class="bodyContent">
+                <!-- Warn the user about disabled JavaScript -->
+                <noscript>
+                    <div class="readOnlyWrapper">
+                        <div class="readOnlyHCP">The System Management Console cannot function properly without JavaScript enabled. Please enable JavaScript in your browser.</div>
+                    </div>
+                </noscript>
+
+                <!-- Read only mode for unavailable metadata -->
+
+
+
+                <!-- Read only mode for cluster involved in replication -->
+
+
+                <div id="updateStatus" class="statusMessage" style="display: none;">
+
+
+<!-- Update Status -->
+<script type="text/javascript">
+    if (window.jQuery) {
+        $(function () {
+
+
+        });
+    }
+</script>
+
+<div class="type success">
+    <div class="body">
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%">
+            <tr>
+                <td valign="top">
+                    <div class="text">
+
+
+                    </div>
+                </td>
+                <td valign="top" style="width: 90px;">
+                    <div class="dismiss">Dismiss</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="footer"><span></span></div>
+</div>
+                </div>
+                <div class="bodyWrap clearfix">
+
+
+<div class="secondaryPageHeaders" style="margin-bottom:5px !important">Tenants</div>
+
+
+  <div style="padding-bottom: 20px;">
+
+
+
+
+
+
+<!-- Expandable Panel (JSID: create) -->
+<div id="pe-create" class="panelExpand">
+  <div id="pe-create-head" class="pe-header pe-toggle">
+    <div class="pe-headercap"><span></span></div>
+    <div class="pe-headermain">
+      <div class="pe-titleRight"><div style="color: #bbb; font-size: 10px; font-weight: bold;">
+          <div style="float: left; width: 140px; padding-right: 8px; text-align: right;">1.56 TB Used</div>
+          <div class="percentQuota" style="background-color: #ccc;"><div class="percentUsed" style="width: 2%; border: 1px solid #ccc;"><span></span></div></div>
+          52.76 TB (of 54.33 TB) Available
+        </div></div>
+      Create Tenant
+    </div>
+  </div>
+  <div id="pe-create-body" class="pe-bodyleft" style="display: none;">
+    <div class="pe-bodyright">
+      <div id="pe-create-bodymain" class="pe-body">
+
+
+
+<script type="text/javascript">
+
+  $(function() {
+    initializeCheckboxesAndButtons("#createTenant");
+    initializeForm('createTenant');
+
+    var $authLocal = $('#localAuthentication');
+    var $authAD = $('#activeDirectory');
+    var $authLOCAL = $('#authSchemeValue_LOCAL');
+    var $authEXTERNAL = $('#authSchemeValue_EXTERNAL');
+
+    syncSecurityControls();
+
+    $('#createSubmit').on("click", function () {
+        var formId = "#createTenant";
+        var dplValue = $('#dplSelectBox').val();
+        if ((dplValue != undefined && (dplValue == '1' || (dplValue.startsWith('Dynamic') && '2' == '1')))
+                && true && true && $('#makeDefaultTenant').prop('checked')) {
+            $('#confirmField').val(false);
+            var title = "Namespace Protection Level";
+            var critical = "With a DPL of one, it is highly recommended that all directories in the " +
+                           "namespace be replicated.";
+            var buttonText = "Create Tenant";
+            overlayConfirmSubmit(title, null, formId, buttonText, null, critical, null, false, true);
+        } else {
+            $('#confirmField').val(true);
+            $(formId).trigger('submit');
+        }
+    });
+
+
+    var $ecSelectedNamespacesId = $('#ecSelectedNamespacesId');
+    var $replicationEnabled = $('#replicationEnabled');
+
+    // Hide EC selection on initial page load if replication not enabled
+    if (!$replicationEnabled.prop('checked')) {
+        $ecSelectedNamespacesId.hide();
+    }
+
+    // Adjust the EC setting when replication setting is changed
+    $replicationEnabled.on('change', function() {
+        $this = $(this);
+        if ($this.prop('checked')) {
+            $ecSelectedNamespacesId.show();
+        } else {
+            $ecSelectedNamespacesId.hide();
+        }
+    });
+
+    $('#noNamespaceQuota').on('change', function() {
+        $this = $(this);
+        $namespaceQuota = $('#namespaceQuota');
+        if ($this.prop('checked')) {
+            $namespaceQuota.val('');
+            $namespaceQuota.prop('disabled', true);
+        } else {
+            $namespaceQuota.prop('disabled', false);
+            $namespaceQuota.val('');
+        }
+    });
+
+
+    $('#servicePlansEnabled').on('change', function() {
+        $this = $(this);
+        var textBox = jQuery('#servicePlansSelectId');
+        if ($this.prop('checked')) {
+            textBox.hide();
+            textBox.val('Default');
+
+            $("div#authenticatedTenantFeatures .selectServicePlans").hide();
+            $("div#authenticatedTenantFeatures .overlaySelection").hide();
+        } else {
+            textBox.show();
+
+            $("div#authenticatedTenantFeatures .selectServicePlans").show();
+            $("div#authenticatedTenantFeatures .overlaySelection").show();
+        }
+    });
+
+    $('.jQueryAuthMethod').on('change', function() {
+        syncSecurityControls($(this));
+    });
+
+    function syncSecurityControls(control) {
+        var adEnabledAndConfigured = $('#adEnabledAndConfigured').val();
+        var local = $authLocal.is(':checked')
+        var ad = $authAD.is(':checked')
+        if(control != undefined) {
+            if(control.attr('id') == 'localAuthentication') {
+                $authAD.prop('checked', true);
+                ad = true;
+            }
+            else {
+                $authLocal.prop('checked', true);
+                local = true;
+            }
+        }
+        if(local && !ad) {
+            $authEXTERNAL.prop('disabled', true);
+
+            $authLOCAL.prop('disabled', false);
+            $authLOCAL.prop('checked', true);
+            $authLOCAL.trigger("change");
+        }
+        else if(ad && !local) {
+            $authLOCAL.prop('disabled', true);
+
+            if ( adEnabledAndConfigured == "true") {
+                $authEXTERNAL.prop('disabled', false);
+                $authEXTERNAL.prop('checked', true);
+                $authEXTERNAL.trigger("change");
+            }
+        }
+        else {
+            $authLOCAL.prop('disabled', false);
+
+             if ( adEnabledAndConfigured == "true") {
+                $authEXTERNAL.prop('disabled', false);
+             }
+        }
+        fixCheckboxes('.jQueryAuthMethod', $('.securityAccountCreate_top'));
+        fixCheckboxes('.authScheme', $('.securityAccountCreate_top'));
+    }
+
+    /* the code below ensures that when create tenant fails, and if "No quota" checkbox is checked,
+       the namespace quota textfield is grayed out and blank.
+     */
+    var nsChecked = $('#noNamespaceQuota').is(':checked');
+    if (nsChecked == true) {
+        $('#namespaceQuota').prop('disabled', true);
+    }
+  });
+</script>
+
+<form id="createTenant" name="createTenant" action="/cluster/tenants_create.action" method="post" class="pkForm">
+    <input type="hidden" name="authToken" value="FHzFs0NuG68IK5+4JU5MWy74nuWtQYL6oqaMRvcHCPmZEvKEvKFr0Z/ENtB+gPzffOjyM1x2q6CY0z2MRccij0D9LehRKN43AXALorXOlywddvKw2oJdME5MnXe7KsiYmYoHnD2nPNcPRsIcnFPRiikpMGwlQbq7zQJ+PXUJpnsKNE4ztyekt6R4XwXcHRu2FBxmlgW/BWAdp3yTYhpw19VsEkbhV2zoJSQ=" id="createTenant_authToken"/>
+    <input type="hidden" name="contactPanelOpen" value="false" id="contactPanelOpenField"/>
+    <input type="hidden" name="tagsPanelOpen" value="false" id="tagsPanelOpenField"/>
+    <input type="hidden" name="confirmed" value="true" id="confirmField"/>
+    <input type="hidden" name="adEnabledAndConfigured" value="false" id="adEnabledAndConfigured"/>
+    <div style="padding: 10px 20px 0px 20px; min-height: 240px;">
+
+        <!-- start left column -->
+        <div style="width: 326px; float:left;  ">
+
+        <div style="position: relative;">
+          <div class="label">Tenant Name</div>
+          <div class="input"><input type="text" name="tenantName" value="" id="tenantName" style="width: 300px"/></div>
+
+        </div>
+
+
+
+
+        <div style="padding-top: 6px">
+            <div class="label"><label id="createTenant_location_description" for="tenantDescription" data-optional="(Optional)">Description</label></div>
+            <div class="input"><textarea name="tenantDescription" cols="" rows="" id="tenantDescription" style="width:300px; height:121px;"></textarea></div>
+        </div>
+
+
+
+                <div id="networkSelectionDiv" >
+                    <div class="input" style="width: 150px; float: left;">
+                        <label for="managementNetwork">Management Network</label>
+                        <select name="managementNetwork" id="managementNetwork" style="width:110px">
+    <option value="[hcp_system]" selected="selected">[hcp_system]</option>
+    <option value="[hcp_management]">[hcp_management]</option>
+    <option value="replication">replication</option>
+
+
+</select>
+
+
+                    </div>
+
+                    <div class="input" style="width: 150px; float: left;">
+                        <label for="dataNetwork">Data Network</label>
+                        <select name="dataNetwork" id="dataNetwork" style="width:110px">
+    <option value="[hcp_system]" selected="selected">[hcp_system]</option>
+    <option value="replication">replication</option>
+
+
+</select>
+
+
+                    </div>
+
+                </div>
+
+
+        <!-- end left column -->
+        </div>
+
+        <!-- right column -->
+        <div id="createUsernamePassword" style="width: 539px; float:left; ">
+        <table id="createTenantTable" width="538" height="48" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="13" height="21"></td>
+                <td colspan="2" width="180" height="21" class="label"><span class="storageQuota" title="Tenant's hard quota"></span><div style="padding-top:3px">Hard Quota</div></td>
+                <td rowspan="3" width="39" height="48"></td>
+                <td colspan="2" width="95" height="21" class="label"><span class="storageQuota" title="Tenant's soft quota"></span><div style="padding-top:3px">Soft Quota</div></td>
+                <td width="38" height="21"></td>
+                <td colspan="2" width="160" height="21" class="label"><span class="namespaceQuota" title="Tenant's maximum allowed namespaces"></span><div style="padding-top:3px">Namespace Quota</div></td>
+                <td width="13" height="21"></td>
+            </tr>
+            <tr>
+                <td width="13" height="21"></td>
+                <td width="81" height="21"><input type="text" name="hardQuota" value="" id="hardQuota" style="width: 75px; float: left; margin-right: 5px;"/></td>
+                <td width="99" height="21" bgcolor="#5b5c5d">
+                  <div class="input inlineTwo" style="color:#FFFFFF">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="radio" id="storageMetricValue_GB" name="storageMetricValue" value="GB" checked="checked"  class="custom hidden " onchange="changeCheckbox(this)" init="true"/>
+            <label for="storageMetricValue_GB" style="" class="custom  radio checked" onclick="return clickLabel(this)">GB</label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="radio" id="storageMetricValue_TB" name="storageMetricValue" value="TB"   class="custom hidden " onchange="changeCheckbox(this)" init="true"/>
+            <label for="storageMetricValue_TB" style="" class="custom  radio unchecked" onclick="return clickLabel(this)">TB</label>
+
+
+
+
+                  </div>
+                </td>
+                <td width="71" height="21">
+                  <div class="input"><input type="text" name="softQuota" value="85" id="softQuota" style="width:65px;"/></div>
+                </td>
+                <td width="24" height="21" bgcolor="#5b5c5d" align="center" style="font-weight:bold; color:#FFFFFF; text-align:center;">%</td>
+                <td width="38" height="21"></td>
+                <td width="71" height="21">
+                  <div class="input"><input type="text" name="namespaceQuota" value="" id="namespaceQuota" style="width:65px;"/></div>
+                </td>
+                <td width="89" height="21" bgcolor="#5b5c5d">
+                  <div class="input inlineTwo" style="padding-left:4px">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="noNamespaceQuota" value="true" id="noNamespaceQuota" class="custom hidden " onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_noNamespaceQuota" name="__checkbox_noNamespaceQuota" value="true" />
+<label for="noNamespaceQuota" id="noNamespaceQuotaLabel" style="white-space: nowrap;" class="custom  checkbox unchecked" onclick="return clickLabel(this)">No quota</label>
+
+                  </div>
+                </td>
+                <td width="13" height="21"></td>
+            </tr>
+            <tr>
+                <td colspan="3" width="193" height="6"></td>
+                <td width="71" height="6"></td>
+                <td colspan="2" width="62" height="6"></td>
+                <td colspan="2" width="160" height="6"></td>
+                <td width="13" height="6"></td>
+            </tr>
+        </table>
+        <div class="NSQ-namespacesCreatedHint" style="padding-top:16px;">10000 namespaces available</div>
+
+
+
+        <div class="securityAccountCreate_top">
+
+        <table style="width: 535px; height: 136px;" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td style="height: 26px; width: 50%;" class="tenantHeader">Authentication Types</td>
+                <td style="height: 26px; width: 50%; border-left: 1px solid #646566;" class="tenantHeader">Initial Security Account</td>
+            </tr>
+            <tr>
+                <td style="height: 23px;">
+
+
+                    <span style="display: inline-block; padding: 0px 5px 0px 5px;" >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="localAuthentication" value="true" checked="checked" disabled="disabled" id="localAuthentication" class="custom hidden jQueryAuthMethod" onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_localAuthentication" name="__checkbox_localAuthentication" value="true" disabled="disabled" />
+<label for="localAuthentication" id="localAuthenticationLabel" style="margin: 0px" class="custom jQueryAuthMethod checkbox disableChecked" onclick="return clickLabel(this)">Local</label>
+</span>
+                    <input type="hidden" name="localAuthentication" value="true" id="localAuthenticationId"/>
+                    <span style="display: inline-block; padding: 0px 5px 0px 5px;" >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="radiusAuthentication" value="true" id="radiusAuthentication" class="custom hidden " onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_radiusAuthentication" name="__checkbox_radiusAuthentication" value="true" />
+<label for="radiusAuthentication" id="radiusAuthenticationLabel" style="margin-top: 0px" class="custom  checkbox unchecked" onclick="return clickLabel(this)">RADIUS</label>
+</span>
+                    <span style="display: inline-block; padding: 0px 5px 0px 5px;" >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="activeDirectory" value="true" id="activeDirectory" class="custom hidden jQueryAuthMethod" onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_activeDirectory" name="__checkbox_activeDirectory" value="true" />
+<label for="activeDirectory" id="activeDirectoryLabel" style="margin-top: 0px" class="custom jQueryAuthMethod checkbox unchecked" onclick="return clickLabel(this)">Active Directory</label>
+</span>
+                </td>
+                <td style="height: 23px;  border-left: 1px solid #acacac;">
+                    <span style="display: inline-block; padding: 0px 5px 0px 5px;" >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="radio" id="authSchemeValue_LOCAL" name="authSchemeValue" value="LOCAL" checked="checked"  class="custom hidden authScheme" onchange="changeCheckbox(this)" init="true"/>
+            <label for="authSchemeValue_LOCAL" style="display: inline-block; padding-right: 5px; margin: 0px !important;" class="custom authScheme radio checked" onclick="return clickLabel(this)">Local</label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="radio" id="authSchemeValue_EXTERNAL" name="authSchemeValue" value="EXTERNAL"   class="custom hidden authScheme" onchange="changeCheckbox(this)" init="true"/>
+            <label for="authSchemeValue_EXTERNAL" style="display: inline-block; padding-right: 5px; margin: 0px !important;" class="custom authScheme radio unchecked" onclick="return clickLabel(this)">Active Directory</label>
+
+
+
+
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" valign="top" style="height: 87px;">
+
+
+
+
+                    <div id="localUser" style="display: block">
+
+                        <div style="padding: 0px 10px 10px 10px;">
+                            <!-- arrow lines up as marker pointer for radio button 1 -->
+                            <div style="width:100%; float:left; padding-left: 280px; "><span class="radioOptionsArrow">&nbsp;</span></div>
+
+                            <div style="float: left; width: 520px; padding-top: 10px;">
+                            	<table cellspacing="0" cellpadding="0" width="520" style="height: 50px">
+                                	<tr>
+                                    	<td valign="middle" style="width:60px; height: 15px; padding-bottom:7px;">
+                                            <strong>Username </strong>
+                                        </td>
+                                        <td valign="middle"  style="width:156px; height: 15px;">
+                                            <div class="input"><input type="text" name="userName" value="" id="username" style="width:150px; margin-left: 5px;"/></div>
+                                        </td>
+                                        <td valign="middle"  colspan="2"></td>
+                                    </tr>
+                                    <tr>
+                                    	<td valign="middle"  style="width: 60px; height: 15px;">
+                                            <strong>Password </strong>
+                                        </td>
+                                        <td valign="middle"  style="width:156px; height: 15px;">
+                                            <div title="Password must be at least 6 characters long.">
+											  <div class="input"><input type="password" name="password1" id="password1" style="width:150px; margin-left: 5px;" autocomplete="off"/></div>
+                                            </div>
+                                        </td>
+                                        <td valign="middle"  style="width:110px; height: 15px; padding-left: 8px;">
+
+                                            <strong>Confirm Password</strong>
+                                         </td>
+                                         <td valign="middle"  style="width:156px; height: 15px;">
+                                             <div class="input"><input type="password" name="password2" id="password2" style="width:150px; margin-left: 5px;" autocomplete="off"/></div>
+                                         </td>
+                                    </tr>
+                                </table>
+                                <!-- local user -->
+                                <div style="padding-bottom: 10px">
+
+                                </div>
+
+
+                            </div>
+                            <div style="padding-top: 52px">
+
+                            </div>
+                        </div>
+
+                    <!-- end local user area -->
+                    </div>
+
+                     <!-- Active Directory -->
+                    <div id="externalUser" style="display: none">
+                        <div style="padding: 0px 10px 10px 10px;">
+
+                            <!-- arrow lines up as marker pointer for radio button 2 -->
+                            <div style="width:100%; float:left; padding-left: 360px; "><span class="radioOptionsArrow">&nbsp;</span></div>
+
+                            <div style="padding-top: 30px">
+                                <div class="label" style="float:left; margin: 0px !important;">Group </div>
+                                <div class="input" style="margin-left: 45px">
+
+
+
+
+
+
+
+
+<div class="autocomplete">
+    <input id="groupname" name="groupName" class="autocomplete-input" type="text" autocomplete="off" style="width:400px;" source="/cluster/groups_match"
+    />
+    <div class="suggestions" style="display: none; width:400px;"></div>
+</div>
+                                    <div class="description">Users within this group will be granted initial security access</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+        </div>
+
+        <!-- end right column -->
+        </div>
+    </div>
+
+    <div style="padding: 25px 20px 0px 20px; min-height: 230px;">
+
+        <div style="width:100%;  display: block;">
+            <!-- Contact Information DropDown -->
+            <div style="margin-top: 20px;">
+
+<!-- Expandable Panel (JSID: create-contact) -->
+<div id="pe-create-contact" class="panelExpand">
+  <div id="pe-create-contact-head" class="pe-header pe-toggle">
+    <div class="pe-headercap"><span></span></div>
+    <div class="pe-headermain">
+      <div class="pe-titleRight">Optional</div>
+      Contact Information
+    </div>
+  </div>
+  <div id="pe-create-contact-body" class="pe-bodyleft" style="display: none;">
+    <div class="pe-bodyright">
+      <div id="pe-create-contact-bodymain" class="pe-body-nf">
+
+
+<!-- Begin Contact Info -->
+<div class="contactInfo pkForm" style="padding: 0px 20px 15px 20px;">
+  <table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td class="leftColumn" style="width: 350px;" valign="top">
+
+        <!-- Fist Name, Last Name -->
+        <div class="inputWrap" style="float: left; padding-right: 10px;">
+          <div class="label">First Name</div>
+          <div class="input"><input type="text" name="firstName" value="" id="createTenant_firstName" style="width:150px;"/></div>
+        </div>
+        <div class="inputWrap">
+          <div class="label">Last Name</div>
+          <div class="input"><input type="text" name="lastName" value="" id="createTenant_lastName" style="width:150px;"/></div>
+        </div>
+        <div style="clear: both"><span></span></div>
+        <!-- Email, Confirm Email -->
+        <div class="inputWrap" style="float: left; padding-right: 10px;">
+          <div class="label">Email</div>
+          <div class="input"><input type="text" name="emailAddress1" value="" id="createTenant_emailAddress1" style="width:150px;"/></div>
+        </div>
+        <div class="inputWrap">
+          <div class="label">Confirm Email</div>
+          <div class="input"><input type="text" name="emailAddress2" value="" id="createTenant_emailAddress2" style="width:150px;"/></div>
+        </div>
+        <div style="clear: both"><span></span></div>
+        <!-- Phone, Ext. -->
+        <div class="inputWrap" style="float: left; padding-right: 10px;">
+          <div class="label">Phone</div>
+          <div class="input"><input type="text" name="phoneNumber" value="" id="createTenant_phoneNumber" style="width:100px;"/></div>
+        </div>
+        <div class="inputWrap">
+          <div class="label">Extension</div>
+          <div class="input"><input type="text" name="extString" value="" id="createTenant_extString" style="width:50px;"/></div>
+        </div>
+        <div style="clear: both"><span></span></div>
+
+      </td>
+      <td class="rightColumn" style="width: 350px;" valign="top">
+
+        <!-- Address1, Address2 -->
+        <div class="inputWrap">
+          <div class="label">Address Line 1</div>
+          <div class="input"><input type="text" name="addressLine1" value="" id="createTenant_addressLine1" style="width:250px;"/></div>
+        </div>
+        <div class="inputWrap">
+          <div class="label">Address Line 2</div>
+          <div class="input"><input type="text" name="addressLine2" value="" id="createTenant_addressLine2" style="width:250px;"/>   </div>
+        </div>
+        <!-- City, State, Zip -->
+        <div class="inputWrap" style="float: left; padding-right: 10px;">
+          <div class="label">City</div>
+          <div class="input"><input type="text" name="cityName" value="" id="createTenant_cityName" style="width:120px;"/></div>
+        </div>
+        <div class="inputWrap" style="float: left; padding-right: 10px;">
+          <div class="label">State/Province</div>
+          <div class="input"><input type="text" name="stateOrProvince" value="" id="createTenant_stateOrProvince" style="width: 90px;"/></div>
+        </div>
+        <div class="inputWrap">
+          <div class="label" style="white-space: nowrap;">Postal Code</div>
+          <div class="input"><input type="text" name="zipCode" value="" id="createTenant_zipCode" style="width: 50px;"/></div>
+        </div>
+        <div style="clear: both"><span></span></div>
+        <!-- Country -->
+        <div class="inputWrap">
+          <div class="label">Country</div>
+          <div class="input"><input type="text" name="countryOrRegionValue" value="" id="createTenant_countryOrRegionValue" style="width: 250px;"/></div>
+        </div>
+
+    </td></tr>
+  </table>
+</div>
+<!-- End Contact Info -->
+
+      </div>
+    </div>
+  </div>
+  <div id="pe-create-contact-foot" class="pe-footer" style="display: none;clear:both">
+    <div class="pe-footercap-nf"><span></span></div>
+    <div class="pe-footermain-nf"><span></span></div>
+  </div>
+</div>
+
+            </div>
+
+            <!-- Tags DropDown -->
+            <div style="margin-top: 20px;">
+
+<!-- Expandable Panel (JSID: create-tags) -->
+<div id="pe-create-tags" class="panelExpand">
+  <div id="pe-create-tags-head" class="pe-header pe-toggle">
+    <div class="pe-headercap"><span></span></div>
+    <div class="pe-headermain">
+      <div class="pe-titleRight">Optional</div>
+      Tags
+    </div>
+  </div>
+  <div id="pe-create-tags-body" class="pe-bodyleft" style="display: none;">
+    <div class="pe-bodyright">
+      <div id="pe-create-tags-bodymain" class="pe-body-nf">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="tagsPanel" class="tagsPanel" style="padding: 20px;">
+<div class="ui-widget">
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+    <tr>
+        <td style="position:relative;">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td style="width: 300px">
+
+
+
+
+
+
+
+
+<div class="autocomplete">
+    <input id="authSchemeValue_EXTERNAL" name="" class="autocomplete-input" type="text" autocomplete="off" style="" source="/cluster/tags_match"
+    />
+    <div class="suggestions" style="display: none; "></div>
+</div>
+                    </td>
+                    <td><span class="addTagButton button-tiny-add" style="width:90px">Add Tag</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="ui-widget-content tagListDisplay"></div>
+                        <input type="hidden" name="newTagList" value="" id="createTenant_newTagList" class="newTagList"/>
+                        <input type="hidden" name="originalTagList" value="" id="createTenant_originalTagList" class="originalTagList"/>
+                        <input type="hidden" name="deletedTagList" value="" id="createTenant_deletedTagList" class="deletedTagList"/>
+                        <input type="hidden" name="tagList" value="" id="createTenant_tagList" class="tagList"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="padding: 0px 15px 0px 15px; vertical-align: top; font-size: 11px">
+            <div class="description">Tags are identifiers that enable logical grouping and filtering of large lists.</div>
+        </td>
+    </tr>
+    </table>
+</div>
+</div>
+
+<script type="text/javascript">
+    HCP_ADMIN.getScriptAndPerform("Tags", "/etc/js/hcap/cluster/tagWidget.js?version=9.4.0.267-", "init", ["formId"]);
+    initializeAutocomplete(function () {
+                            HCP_ADMIN.Tags.addTags($("#tagsPanel"));
+                            });
+</script>
+      </div>
+    </div>
+  </div>
+  <div id="pe-create-tags-foot" class="pe-footer" style="display: none;clear:both">
+    <div class="pe-footercap-nf"><span></span></div>
+    <div class="pe-footermain-nf"><span></span></div>
+  </div>
+</div>
+
+            </div>
+        </div>
+
+        <div class="inputWrap features" style="margin-top: 0px; padding: 0px; width:100%; background-color: #fff; background-image: url(/images/feature-box-background-tall.png); height:170px; background-position:top; background-repeat:no-repeat;">
+        <!-- Tenant Features -->
+        <div id="authenticatedTenantFeatures" class="tenantFeatures">
+        <div class="label featureBoxHeader" style="font-size: 12px; font-weight:bold; padding-left: 15px; padding-top:3px;">
+            Enable features for this tenant
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" >
+          <tr>
+
+          <td style="padding-left: 20px; width: 160px;" valign="top">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="replicationEnabled" value="true" id="replicationEnabled" class="custom hidden " onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_replicationEnabled" name="__checkbox_replicationEnabled" value="true" />
+<label for="replicationEnabled" id="replicationEnabledLabel" style="" class="custom  checkbox unchecked" onclick="return clickLabel(this)">Replication</label>
+
+            <div id="ecSelectedNamespacesId">
+              <label>Erasure Coding</label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="radio" id="ecSelectedNamespaces_false" name="ecSelectedNamespacesValue" value="false" checked="checked"  class="custom hidden ecSelectedNamespaces" onchange="changeCheckbox(this)" init="true"/>
+            <label for="ecSelectedNamespaces_false" style="display: inline-block; padding-right: 5px; margin: 0px !important;" class="custom ecSelectedNamespaces radio checked" onclick="return clickLabel(this)">All cloud-optimized namespaces</label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="radio" id="ecSelectedNamespaces_true" name="ecSelectedNamespacesValue" value="true"   class="custom hidden ecSelectedNamespaces" onchange="changeCheckbox(this)" init="true"/>
+            <label for="ecSelectedNamespaces_true" style="display: inline-block; padding-right: 5px; margin: 0px !important;" class="custom ecSelectedNamespaces radio unchecked" onclick="return clickLabel(this)">Selected namespaces</label>
+
+
+
+
+            </div>
+          </td>
+
+          <td style="padding-left: 13px; width: 170px;" valign="top">
+            <div class="featureBoxSeparator"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="retentionModeEnabled" value="true" id="retentionModeEnabled" class="custom hidden " onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_retentionModeEnabled" name="__checkbox_retentionModeEnabled" value="true" />
+<label for="retentionModeEnabled" id="retentionModeEnabledLabel" style="white-space: nowrap;" class="custom  checkbox unchecked" onclick="return clickLabel(this)">Retention Mode Selection</label>
+
+          </td>
+          <td style="padding-left: 20px; width: 160px;" valign="top"><div class="featureBoxSeparator"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="objectIndexingEnabled" value="true" id="objectIndexingEnabled" class="custom hidden " onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_objectIndexingEnabled" name="__checkbox_objectIndexingEnabled" value="true" />
+<label for="objectIndexingEnabled" id="objectIndexingEnabledLabel" style="" class="custom  checkbox unchecked" onclick="return clickLabel(this)">Search</label>
+
+          </td>
+          <td style="padding-left: 20px; width: 160px;" valign="top"><div class="featureBoxSeparator"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="servicePlansEnabled" value="true" id="servicePlansEnabled" class="custom hidden " onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_servicePlansEnabled" name="__checkbox_servicePlansEnabled" value="true" />
+<label for="servicePlansEnabled" id="servicePlansEnabledLabel" style="" class="custom  checkbox unchecked" onclick="return clickLabel(this)">Service Plan Selection</label>
+
+            <div>
+              <div class="input" style="width:142px">
+
+              <input type="text" name="tenantServicePlanSelected" value="Default" readonly="readonly" id="servicePlansSelectId" style="width:110px; height: 12px; float: left; font-size:10px;"/>
+
+
+
+
+
+
+
+
+              <span class="selectServicePlans" rdiv="/cluster/servicePlansSelection_input.action?selectedServicePlan=Default&servicePlanFieldId=servicePlansSelectId&includeCurrentServicePlan=false" style="com.hds.ui.cluster.tenant.Tenants@23b42e4e">
+                <span class="overlaySelection" title="Select a service plan"></span>
+              </span>
+              </div>
+            </div>
+          </td>
+          <td style="padding-left: 20px; width: 160px;" valign="top"><div class="featureBoxSeparator"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="objectVersioningEnabled" value="true" id="objectVersioningEnabled" class="custom hidden " onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_objectVersioningEnabled" name="__checkbox_objectVersioningEnabled" value="true" />
+<label for="objectVersioningEnabled" id="objectVersioningEnabledLabel" style="" class="custom  checkbox unchecked" onclick="return clickLabel(this)">Versioning</label>
+
+          </td></tr>
+        </table>
+        </div>
+        <!-- Default Namespace Features -->
+        <div id="defaultTenantFeatures" class="tenantFeatures" style="display: none;">
+        <div class="label featureBoxHeaderNamespace" style="font-size: 12px; font-weight:bold; padding-left: 15px; padding-top:3px;">
+          Configure features for the &nbsp;<span style="color:#ff8e02"><b><u>default namespace</u></b></span>
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tr>
+          <td style="padding-left: 30px; width: 120px;" valign="top">
+            <label for="hashValueSelectBox">Hash Algorithm</label>
+            <select name="hashValue" id="hashValueSelectBox">
+    <option value="SHA-256">SHA-256</option>
+    <option value="SHA-384">SHA-384</option>
+    <option value="SHA-512">SHA-512</option>
+    <option value="MD5">MD5</option>
+    <option value="SHA-1">SHA-1</option>
+    <option value="RIPEMD160">RIPEMD160</option>
+
+
+</select>
+
+
+          </td>
+          <td id="retentionModeOptions" style="padding-left: 30px; width: 220px;" valign="top"><div class="featureBoxSeparator"></div>
+            <label for="retentionModeValue" style="white-space: nowrap;">Retention Mode</label>
+            <div class="input inline" style="margin-top:-3px;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="radio" id="retentionModeValue_Enterprise" name="retentionModeValue" value="Enterprise" checked="checked"  class="custom hidden " onchange="changeCheckbox(this)" init="true"/>
+            <label for="retentionModeValue_Enterprise" style="" class="custom  radio checked" onclick="return clickLabel(this)">Enterprise</label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="radio" id="retentionModeValue_Compliance" name="retentionModeValue" value="Compliance"   class="custom hidden " onchange="changeCheckbox(this)" init="true"/>
+            <label for="retentionModeValue_Compliance" style="" class="custom  radio unchecked" onclick="return clickLabel(this)">Compliance</label>
+
+
+
+</div>
+          </td>
+          <td style="padding-left: 30px; width: 160px;" valign="top"><div class="featureBoxSeparator"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="checkbox" name="defObjectIndexingEnabled" value="true" id="defObjectIndexingEnabled" class="custom hidden " onchange="changeCheckbox(this)" init="true"/><input type="hidden" id="__checkbox_defObjectIndexingEnabled" name="__checkbox_defObjectIndexingEnabled" value="true" />
+<label for="defObjectIndexingEnabled" id="defObjectIndexingEnabledLabel" style="white-space: nowrap;" class="custom  checkbox unchecked" onclick="return clickLabel(this)">Enable Search</label>
+
+          </td>
+          <td style="padding-left: 30px; width: 160px;" valign="top"><div class="featureBoxSeparator"></div>
+            <label for="servicePlanValue" style="white-space: nowrap;">Service Plan</label>
+            <div>
+              <div>
+                <div class="input">
+
+                <input type="text" name="defServicePlansSelectValue" value="Default" readonly="readonly" id="defaultServicePlansSelectId" style="width:110px; height: 12px; float: left; font-size:10px;"/>
+
+
+
+
+
+                <span class="selectServicePlans" rdiv="/cluster/servicePlansSelection_input.action?selectedServicePlan=Default&servicePlanFieldId=defaultServicePlansSelectId&includeCurrentServicePlan=false">
+                  <span class="overlaySelection" title="Select a service plan"></span>
+                </span>
+                </div>
+              </div>
+
+            </div>
+          </td>
+          </tr>
+        </table>
+        </div>
+    </div>
+
+    </div>
+
+
+
+
+
+
+
+
+  <!-- Create and Cancel Buttons -->
+  <div class="submitWrap">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="createCancelDiv" refid="createCancel" class="button-grey-small pkButton enabled" style="float: right" formid="" onclick="clickButton(this)">
+    Cancel
+</div>
+<input type="reset" id="createCancel" class="button-grey-small" value="Cancel"  style="display: none" formid=""  init="true"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="createSubmitDiv" refid="createSubmit" class="button-orange-big pkButton enabled" style="float: right" formid="" onclick="clickButton(this)">
+    Create Tenant
+</div>
+<input type="button" id="createSubmit" class="button-orange-big" value="Create Tenant"  style="display: none" formid="" init="true"/>
+
+  </div>
+
+</form>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <div id="pe-create-foot" class="pe-footer" style="display: none;clear:both">
+    <div class="pe-footercap"><span></span></div>
+    <div class="pe-footermain"><span></span></div>
+  </div>
+</div>
+
+  </div>
+
+
+<div id="tenantsListDiv" style="padding: 0px 6px;">
+
+
+
+
+
+
+
+
+
+
+
+<div id="filteringSortingPaging" class="filteringSortingPaging ">
+    <input type="hidden" name="" value="/cluster/tenants_tableData.action" class="tableDataSource"/>
+
+        <link rel="stylesheet" type="text/css" media="screen" href="/etc/css/hcp/filterSortPageTableCss/tenantsTable.css?version=9.4.0.267-"/>
+
+
+
+        <div class="resultsHeader">
+            <span style="color: #ff8e02"><label class="minLabel"></label> - <label class="maxLabel"></label></span>&nbsp;
+            <span>of <label class="totalLabel"></label></span><span> <label class="entryType">Tenants</label></span>
+
+
+
+                <span class="iconButton managedTagsButton"
+                      style="background-image: url(/images/icons/tags.png); float:left; position:relative; left:12px"
+                      rdiv="/cluster/manageTagsTenants_input.action"
+                      title="Tags">
+                </span>
+
+        </div>
+
+
+
+        <div style="padding: 0 12px;">
+            <table class="filterBar pkForm" cellpadding="0" cellspacing="0" width="100%" border="0">
+                <tr>
+                    <td class="leftCap" valign="top"></td>
+                    <td class="leftMain" valign="top">
+
+                            <table cellspacing="0" cellpadding="0" style="height:27px">
+                                <tr>
+                                    <td style="height:27px; padding-right:5px;">
+                                        <span>
+                                            <select name="filteringTypes" id="filteringTypes" class="filteringTypes" style="width: 90px; font-size:10px; height: 17px;">
+    <option value="name">Name</option>
+    <option value="tag">Tag</option>
+    <option value="managementnetwork">Management Network</option>
+    <option value="datanetwork">Data Network</option>
+
+
+</select>
+
+
+                                        </span>
+                                    </td>
+                                    <td style="height:27px">
+                                        <input type="text" name="search" maxlength="128" value="" id="search" class="search" style="width: 200px;  height: 11px;  font-size:10px;"/>
+                                    </td>
+                                    <td style="height:27px">
+                                        <span class="searchButton addToList_findButton" style="float:right; margin-right:1px; height:17px"></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                    </td>
+                    <td class="middle" valign="top"></td>
+                    <td class="rightMain" valign="top" align="right">
+
+                            <table cellspacing="0" cellpadding="0" style="height:27px">
+                                <tr>
+                                    <td style="height:27px;">
+                                        <select name="amountPerPage" id="amountPerPage" class="amountPerPage" style="width: 45px; font-size:10px; height: 17px;">
+    <option value="10">10</option>
+    <option value="20" selected="selected">20</option>
+    <option value="50">50</option>
+
+
+</select>
+
+
+                                        Items per page
+                                    </td>
+                                    <td><span class="pagingDivider"></span></td>
+                                    <td>
+                                        <span class="jqueryPage jqueryPrevious previousInactive"></span>
+                                    </td>
+                                    <td>
+                                        <span>Page </span>
+                                        <input type="text" name="pageGo" value="1" id="pageGo" class="pageGo" style="width: 30px;  font-size:10px; height: 11px;"/>
+                                        <span> of <label class="numPagesLabel"></label> </span>
+                                    </td>
+                                    <td>
+                                        <span class="jqueryPage jqueryNext nextInactive"></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                    </td>
+                    <td class="rightCap"  valign="top"></td>
+                </tr>
+            </table>
+        </div>
+
+
+    <table cellpadding="0" cellspacing="0" border="0" class="" style="border:2px solid #444;">
+        <tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" border="0" class="filterSortPageTable tableExpand">
+                    <tr class="headerRow">
+
+
+
+
+
+                            <th name="name" class="headerLeft arrow name defaultSort jquerySortRow">Name<span class="sortArrow"></span></th>
+
+
+
+
+
+                            <th name="managementnetwork" class="headerLeft network jquerySortRow">Mgmt Network<span class="sortArrow"></span></th>
+
+
+
+
+
+                            <th name="datanetwork" class="headerLeft network jquerySortRow">Data Network<span class="sortArrow"></span></th>
+
+
+
+                            <th name="" class="headerMain alerts">Alerts<span class="sortArrow"></span></th>
+
+
+
+                            <th name="" class="headerMain storageUsed">Usage<span class="sortArrow"></span></th>
+
+
+
+
+
+                            <th name="hardquota" class="headerMain quota jquerySortRow">Quota<span class="sortArrow"></span></th>
+
+
+
+                            <th name="" class="headerRight icons"><span class="sortArrow"></span></th>
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #fff;">
+                <div id="filterSortPageTableDataDiv" class="filterSortPageTableDataDiv" style="height: 100%">
+                    <div class="loading" style="height: 220px; background-color: #f3f3f3; width: 100%;">&nbsp;</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+
+<script type="text/javascript">
+    HCP_ADMIN.getScriptAndPerform("FilteringSortingPagingTable", "/etc/js/hcap/filteringSortingPagingTable.js?version=9.4.0.267-",
+            "init", ['/cluster/tenants_tableData.action', '', '{"targetName":"","filterString":"","count":20,"sortBy":"","filterType":"","reverse":false}', '[]', 0]);
+</script>
+
+</div>
+
+                </div>
+                <div class="clear">&nbsp;</div>
+            </div>
+
+            <!-- Main Footer -->
+            <div id="mainFooter">
+                <div class="softwareInfo">
+
+
+                        v9.4.0.267
+
+
+
+                        | Serial Number: 55695
+
+                </div>
+                <div class="copyright">
+                    &copy; Hitachi Vantara Corporation 2022. All rights reserved.
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing Indicator -->
+        <div id="indicator" style="display:none;">
+            <div id="indicator-image"></div>
+        </div>
+
+        <div id="overlay" class="wizard" style="display: none;">
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function() {
+
+        $('#overlay div.ol-back').on("click", function() { hideOverlay(); });
+        $(window).on("keypress", function(e){
+            if (e.keyCode == 27){
+               hideOverlay();}});
+    });
+</script>
+
+<div class="ol-back"><span></span></div>
+<div class="ol-wrap" style="width: 600px;">
+  <div class="ol-header">
+    <div class="ol-headercap"><span></span></div>
+    <div class="ol-headermain">
+      <div class="ol-title">&nbsp;</div>
+    </div>
+  </div>
+  <div class="ol-leftcap">
+    <div class="ol-rightcap">
+      <div class="ol-contentWrap">
+        <div id="overlayStatus" class="statusMessage" style="display: none;">
+            <div class="type success">
+              <div class="body">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%">
+                  <tr><td valign="top">
+                    <div class="text">
+
+
+                    </div>
+                  </td><td valign="top" style="width: 90px;">
+                    <div class="dismiss">Dismiss</div>
+                  </td></tr>
+                </table>
+              </div>
+              <div class="footer"><span></span></div>
+            </div>
+        </div>
+        <div class="ol-content clearfix">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ol-footer">
+    <div class="ol-footercap"><span></span></div>
+    <div class="ol-footermain">
+      <div class="ol-buttons">
+        <img id="overlayIndicator" src="/images/ajax-submit-greybg.gif" alt="Updating.." style="float: left; display: none; margin-top: 3px;"/>
+        &nbsp;
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+
+        <!--
+        Page Generated at: Fri Jan 27 2023 1:48:54 PM KST
+        Page Generated on node: 101
+        IP Address:
+        -->
+    </body>
+</html>

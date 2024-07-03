@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<serviceStatistics>
+     <requestTime>1524773822369</requestTime>
+     <services>
+          <service>
+               <name>StorageTieringService</name>
+               <state>RUNNING</state>
+               <startTime>1524773425</startTime>
+               <endTime>-1</endTime>
+               <performanceLevel>MEDIUM</performanceLevel>
+               <objectsExamined>0</objectsExamined>
+               <objectsServiced>0</objectsServiced>
+               <objectsUnableToService>0</objectsUnableToService>
+          </service>
+          <service>
+               <name>GarbageCollection</name>
+               <state>READY</state>
+               <startTime>1523624400</startTime>
+               <endTime>1523624748</endTime>
+               <objectsExamined>29530</objectsExamined>
+               <objectsServiced>27570</objectsServiced>
+               <objectsUnableToService>5</objectsUnableToService>
+          </service>
+          <service>
+               <name>RetirementPolicy</name>
+               <state>DISABLED</state>
+               <startTime>-1</startTime>
+               <endTime>-1</endTime>
+               <objectsExamined>0</objectsExamined>
+               <objectsServiced>0</objectsServiced>
+               <objectsUnableToService>0</objectsUnableToService>
+          </service>
+     </services>
+</serviceStatistics>

@@ -171,17 +171,21 @@ class PortScan():
         header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, my_checksum, ID, 1)
         bytesInDouble = struct.calcsize("d")
         data = (192 - bytesInDouble) * "Q"
-        data = struct.pack("d", time.time()) + data
+        print(data)
+        print(type(data))
+        data = str(struct.pack("d", time.time())) + data
      
         # Calculate the checksum on the data and the dummy header.
-        my_checksum = self.checksum(header + data)
+        my_checksum = self.checksum(str(header) + data)
      
         # Now that we have the right checksum, we put that in. It's just easier
         # to make up a new header than to stuff it into the dummy.
         header = struct.pack(
             "bbHHh", ICMP_ECHO_REQUEST, 0, socket.htons(my_checksum), ID, 1
         )
-        packet = header + data
+        packet = str(header) + data
+        print(packet)
+        print(type(packet))
         my_socket.sendto(packet, (dest_addr, 1)) # Don't know about the 1
      
      
@@ -276,8 +280,8 @@ if __name__ == '__main__':
 #    args = sys.argv[:]
 #    ip = args[1]
 #    port = int(args[2])
-    ip='211.238.39.26'
-    port='54101'
+    ip='192.168.46.43'
+    port='53001'
     print(PortScan().main(ip,port))
 #    sys.stdout.write(main(ip, port)+'\n')
     

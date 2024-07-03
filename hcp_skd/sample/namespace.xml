@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<namespace>
+    <name>Accounts-Receivable</name>
+    <description>Created for the Finance department at Example Company by Lee
+        Green on 2/9/2017.</description>
+    <hashScheme>SHA-256</hashScheme>
+    <enterpriseMode>true</enterpriseMode>
+    <hardQuota>50 GB</hardQuota>
+    <softQuota>75</softQuota>
+    <servicePlan>Short-Term-Activity</servicePlan>
+    <optimizedFor>CLOUD</optimizedFor>
+    <versioningSettings>
+        <enabled>true</enabled>
+        <prune>true</prune>
+        <pruneDays>10</pruneDays>
+    </versioningSettings>
+    <multipartUploadAutoAbortDays>10</multipartUploadAutoAbortDays>
+    <searchEnabled>true</searchEnabled>
+    <indexingEnabled>true</indexingEnabled>
+    <customMetadataIndexingEnabled>true</customMetadataIndexingEnabled>
+    <customMetadataValidationEnabled>true</customMetadataValidationEnabled>
+    <replicationEnabled>true</replicationEnabled>
+    <allowErasureCoding>true</allowErasureCoding>
+    <readFromReplica>true</readFromReplica>
+    <serviceRemoteSystemRequests>true</serviceRemoteSystemRequests>
+    <tags>
+        <tag>Billing</tag>
+        <tag>lgreen</tag>
+    </tags>
+</namespace>

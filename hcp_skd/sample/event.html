@@ -1,0 +1,850 @@
+
+
+
+<div class="centerPanel" style="width:px" >
+  <div class="cp-header pkForm" style="position: relative">
+    <div class="cp-headercap"><span></span></div>
+
+    <!-- Main Tabs -->
+
+    <div class="cpTab">Major Events</div>
+
+
+    <!-- First Tab Controls -->
+
+
+    <div class="control page pageRight pageOn cpTabToggle cpTabShow_1_0" href="/cluster/majorEvents.action?before=1&time=1673918304254&logsPerPage=10&title=Major+Events&action=majorEvents&divID=majorEvents&alertsTab=false&none=none&viewEventsTab=true&idSuffix=0&severityColumn=true&eventColumn=true"><span></span></div>
+
+
+
+    <div class="control page pageLeft pageOff cpTabToggle cpTabShow_1_0" href="/cluster/majorEvents.action?after=1&time=1673919532765&logsPerPage=10&title=Major+Events&action=majorEvents&divID=majorEvents&alertsTab=false&none=none&viewEventsTab=true&idSuffix=0&severityColumn=true&eventColumn=true"><span></span></div>
+
+    <form id="logsPerPage_majorEvents" name="logsPerPage_majorEvents" action="/cluster/majorEvents.action" method="post">
+      <input type="hidden" name="authToken" value="YrhPeKDZWXGCanzqf/8rAaNMkSu/I3BzIhrG9Bf2a6CJIBqJVgddV1Q3jZ+uJ817pdWb3bLh88lSuNBdA/HU0T72BZg4Fke95pkYNDVltOwuqAO7HZiUd4DzCpelguDIYkDMJls5l2zJ5NDwxv3OR2RNPrqPJLy4fH7d3F9CTEwrk4H5Wfr6P7iNfRVmpNMPGYdqwXmFoPN+Ct+rLTNO+Gf9AkyH49nTyGE=" id="logsPerPage_majorEvents_authToken"/>
+      <input type="hidden" name="title" value="Major Events" id="logsPerPage_majorEvents_title"/>
+      <input type="hidden" name="divID" value="majorEvents" id="logsPerPage_majorEvents_divID"/>
+      <input type="hidden" name="action" value="majorEvents" id="logsPerPage_majorEvents_action"/>
+      <input type="hidden" name="alertsTab" value="false" id="logsPerPage_majorEvents_alertsTab"/>
+      <input type="hidden" name="none" value="none" id="logsPerPage_majorEvents_none"/>
+      <input type="hidden" name="viewEventsTab" value="true" id="logsPerPage_majorEvents_viewEventsTab"/>
+      <input type="hidden" name="idSuffix" value="0" id="logsPerPage_majorEvents_idSuffix"/>
+      <input type="hidden" name="eventNode" value="" id="logsPerPage_majorEvents_eventNode"/>
+      <input type="hidden" name="eventId" value="" id="logsPerPage_majorEvents_eventId"/>
+      <div class="control items cpTabToggle cpTabShow_1_0">
+        Items<select name="logsPerPage" id="logsPerPage_majorEvents_logsPerPage" class="logsPerPage">
+    <option value="10" selected="selected">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+
+
+</select>
+
+
+      </div>
+    </form>
+
+
+
+
+      <div class="control view cpTabToggle cpTabShow_1_0" style="margin-top: 2.5px;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="dialog_searchEvents_majorEvents" class="jQueryDialogParent" style="display: none">
+
+    <div class="uiWrapper">
+    <form id="searchPerPage_majorEvents" name="searchPerPage_majorEvents" action="/cluster/filterMajorEvents.action" method="post" class="pkForm">
+        <input type="hidden" name="authToken" value="YrhPeKDZWXGCanzqf/8rAaNMkSu/I3BzIhrG9Bf2a6CJIBqJVgddV1Q3jZ+uJ817pdWb3bLh88lSuNBdA/HU0T72BZg4Fke95pkYNDVltOwuqAO7HZiUd4DzCpelguDIYkDMJls5l2zJ5NDwxv3OR2RNPrqPJLy4fH7d3F9CTEwrk4H5Wfr6P7iNfRVmpNMPGYdqwXmFoPN+Ct+rLTNO+Gf9AkyH49nTyGE=" id="searchPerPage_majorEvents_authToken"/>
+        <input type="hidden" name="statusId" value="overlayStatus" id="searchPerPage_majorEvents_statusId"/>
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function() {
+
+        $('#overlay div.ol-back').on("click", function() { hideOverlay(); });
+        $(window).on("keypress", function(e){
+            if (e.keyCode == 27){
+               hideOverlay();}});
+    });
+</script>
+
+<div class="ol-back"><span></span></div>
+<div class="ol-wrap" style="width: ;">
+  <div class="ol-header">
+    <div class="ol-headercap"><span></span></div>
+    <div class="ol-headermain">
+      <div class="ol-title"></div>
+    </div>
+  </div>
+  <div class="ol-leftcap">
+    <div class="ol-rightcap">
+      <div class="ol-contentWrap">
+        <div id="overlayStatus" class="statusMessage" style="display: none;">
+            <div class="type success">
+              <div class="body">
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 100%">
+                  <tr><td valign="top">
+                    <div class="text">
+
+
+                    </div>
+                  </td><td valign="top" style="width: 90px;">
+                    <div class="dismiss">Dismiss</div>
+                  </td></tr>
+                </table>
+              </div>
+              <div class="footer"><span></span></div>
+            </div>
+        </div>
+        <div class="ol-content clearfix">
+          <input type="hidden" name="title" value="Major Events" id="searchPerPage_majorEvents_title"/>
+                <input type="hidden" name="divID" value="majorEvents" id="searchPerPage_majorEvents_divID"/>
+                <input type="hidden" name="action" value="filterMajorEvents" id="searchPerPage_majorEvents_action"/>
+                <input type="hidden" name="alertsTab" value="false" id="searchPerPage_majorEvents_alertsTab"/>
+                <input type="hidden" name="none" value="none" id="searchPerPage_majorEvents_none"/>
+                <input type="hidden" name="viewEventsTab" value="true" id="searchPerPage_majorEvents_viewEventsTab"/>
+                <input type="hidden" name="idSuffix" value="0" id="searchPerPage_majorEvents_idSuffix"/>
+                <div class="optional" style="padding: 10px; margin: 10px">
+                    <span style="font-size:13px; font-weight:bold;">Enter Criteria For Filtering The Events</span>
+                    <table cellpadding="0" cellspacing="0" style="padding-top: 9px;">
+                        <tbody>
+                        <tr>
+                            <td valign="top" style="padding-right: 82px;padding-left: 20px;">
+                                Start Date<label for="startDate"></label>
+                                <div class="datePicker" style="margin-top: 0.5px;">
+                                    <input type="text" name="startDate" maxlength="10" value="" id="startDate_majorEvents" style="width: 87px;height: 13px;top:20px" placeholder="MM/DD/YYYY"/>
+                                </div>
+                            </td>
+                            <td valign="top">
+                            <div>
+                                End Date<label for="endDate"></label>
+                                <div class="datePicker" style="margin-top: 0.5px; background-color:#00CC99">
+                                    <input type="text" name="endDate" maxlength="10" value="" id="endDate_majorEvents" style="width: 87px;height: 12px;" placeholder="MM/DD/YYYY"/>
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" style="margin-top: 0.5px; padding-right:59px;padding-left: 20px;">
+                                Event ID<label for="eventId"></label>
+                                <div>
+                                    <input type="text" name="eventId" value="" id="eventId_majorEvents" class="allownumericwithComma" style="width: 111px;height: 13px;" placeholder="Numeric event ids"/>
+                                </div>
+                            </td>
+                            <td valign="top" style="margin-top: 0.5px; padding-right:0px;">
+                            <div>
+                                Node Number<label for="eventNode"></label>
+                                <div>
+                                    &nbsp;<select name="eventNode" id="eventNode_majorEvents" class="half" style="width: 134px;font-size:11px;height: 25px;">
+    <option value="All">All</option>
+    <option value="101">101</option>
+    <option value="102">102</option>
+    <option value="103">103</option>
+    <option value="104">104</option>
+
+
+</select>
+
+
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ol-footer">
+    <div class="ol-footercap"><span></span></div>
+    <div class="ol-footermain">
+      <div class="ol-buttons">
+        <img id="overlayIndicator" src="/images/ajax-submit-greybg.gif" alt="Updating.." style="float: left; display: none; margin-top: 3px;"/>
+        <div id="btnCancel_majorEventsDiv" refid="btnCancel_majorEvents" class="button-grey-small pkButton enabled" style="float: right;" formid="" onclick="clickButton(this)">
+    Cancel
+</div>
+<input type="button" id="btnCancel_majorEvents" class="button-grey-small" value="Cancel"  style="display: none" formid="" init="true"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="btnSearch_majorEventsDiv" refid="btnSearch_majorEvents" class="button-orange-small pkButton enabled" style="float: right;" formid="" onclick="clickButton(this)">
+    Search
+</div>
+<input type="submit" id="btnSearch_majorEvents" class="button-orange-small" value="Search"  style="display: none" formid="" init="true"/>
+      </div>
+    </div>
+  </div>
+</div>
+    </form>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchEvents_majorEventsDiv" refid="searchEvents_majorEvents" class="button-orange-small pkButton enabled" style="" formid="" onclick="clickButton(this)">
+    Search
+</div>
+<input type="button" id="searchEvents_majorEvents" class="button-orange-small" value="Search"  style="display: none" formid="" init="true"/>
+
+
+
+
+<script type="text/javascript">
+    HCP_ADMIN.getScriptAndPerform("Dialog", "/etc/js/hcap/dialog.js?version=9.4.0.267-",
+            "init", ['searchEvents_majorEvents', 'searchEvents_majorEvents', 'Search', '', 400, 170, true, false, 'center', 'center', 'html'], true);
+</script>
+
+<script type="text/javascript">
+    HCP_ADMIN.getScriptAndPerform("FilterEvents", "/etc/js/hcap/cluster/monitoring/filterEvents.js?version=9.4.0.267-", "initDates", ["searchPerPage_majorEvents","majorEvents"]);
+
+    $(".allownumericwithComma").on("keypress keyup blur", function (event) {
+        $(this).val($(this).val().replace(/[^0-9\,]/g, ''));
+        if ((event.which != 44) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+</script>
+      </div>
+
+
+    <div class="control view cpTabToggle cpTabShow_1_0">
+      <a class="expandAll" href="javascript:void(0);">expand all</a>
+    </div>
+  </div>
+
+  <!-- Events Content -->
+  <div id="cpTabContent_1_0" class="cp-content cpTabContent" style="position: relative">
+    <table class="eventsList fixedHeader" cellpadding="0" cellspacing="0" border="0" maxHeight="256px">
+      <thead><tr>
+
+
+          <th class="user" width="75px">User</th>
+
+
+          <th class="severity">Severity</th>
+
+        <th class="date">Date</th>
+
+          <th class="event">Event</th>
+
+      </tr></thead>
+      <tbody>
+
+
+
+        <tr id="cp_expandrow_0_0" class="cp_expandrow odd Notice">
+          <td class="user cp_expand">[internal]</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:38AM</td>
+
+            <td class="event cp_expand">Node started</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_0_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>1</div>
+
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>1002</div>
+
+                  <div><span class="title">Node:</span>102</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                Node is up and available.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">A node started.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_1_0" class="cp_expandrow even Notice">
+          <td class="user cp_expand">[internal]</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:38AM</td>
+
+            <td class="event cp_expand">Node started</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_1_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>1</div>
+
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>1002</div>
+
+                  <div><span class="title">Node:</span>103</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                Node is up and available.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">A node started.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_2_0" class="cp_expandrow odd Notice">
+          <td class="user cp_expand">[internal]</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:38AM</td>
+
+            <td class="event cp_expand">Node started</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_2_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>1</div>
+
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>1002</div>
+
+                  <div><span class="title">Node:</span>104</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                Node is up and available.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">A node started.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_3_0" class="cp_expandrow even Notice">
+          <td class="user cp_expand">[internal]</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:38AM</td>
+
+            <td class="event cp_expand">Node started</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_3_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>1</div>
+
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>1002</div>
+
+                  <div><span class="title">Node:</span>101</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                Node is up and available.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">A node started.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_4_0" class="cp_expandrow odd Notice">
+          <td class="user cp_expand">[internal]</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:38AM</td>
+
+            <td class="event cp_expand">HCP started</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_4_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>1</div>
+
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>1000</div>
+
+                  <div><span class="title">Node:</span>101</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                HCP is online and available for requests.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">The HCP system started.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_5_0" class="cp_expandrow even Notice">
+          <td class="user cp_expand">service</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:32AM</td>
+
+            <td class="event cp_expand">HCP restart requested from System Management Console</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_5_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>45f12198-0e21-4de5-ad8d-5cf96111fd17</div>
+
+                  <div style="padding: 2px 25px 2px 0px; float:left;"><span class="title" style="width:40px;">Port:</span><span style="color:#666666">8000</span></div>
+
+
+                  <div style="padding: 2px 25px 2px 5px; float: left;"><span class="title" style="width:90px;">Originating IP:</span><span style="color:#666666">40.1.14.136</span></div>
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>2618</div>
+
+                  <div><span class="title">Node:</span>101</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                The HCP system was restarted from the System Management Console, reason: restart<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">A user restarted HCP from the System Management Console.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_6_0" class="cp_expandrow odd Notice">
+          <td class="user cp_expand">[internal]</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:30AM</td>
+
+            <td class="event cp_expand">Broken replication link recovered</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_6_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>1</div>
+
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>2167</div>
+
+                  <div><span class="title">Node:</span>101</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                Broken replication link MainToDR has been repaired.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">The broken replication link has been repaired.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_7_0" class="cp_expandrow even Error">
+          <td class="user cp_expand">[internal]</td>
+
+            <td class="severity cp_expand">Error</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:28AM</td>
+
+            <td class="event cp_expand">Replication link failure</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_7_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>1</div>
+
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>2108</div>
+
+                  <div><span class="title">Node:</span>101</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                Replication link MainToDR appears to be broken. Please check network connectivity to the remote system.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">A replication link is not working.</div>
+                </div>
+
+                  <div style="margin-top: 5px; width: 100%;">
+                    <div style="width: 60px; display: inline-block;  float: left;"><strong>Action:</strong> </div>
+                    <div style="display: inline-block;  width: 80%;">Check network connectivity to the remote system.</div>
+                  </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_8_0" class="cp_expandrow odd Notice">
+          <td class="user cp_expand">service</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:18AM</td>
+
+            <td class="event cp_expand">Domain deleted</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_8_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>45f12198-0e21-4de5-ad8d-5cf96111fd17</div>
+
+                  <div style="padding: 2px 25px 2px 0px; float:left;"><span class="title" style="width:40px;">Port:</span><span style="color:#666666">8000</span></div>
+
+
+                  <div style="padding: 2px 25px 2px 5px; float: left;"><span class="title" style="width:90px;">Originating IP:</span><span style="color:#666666">40.1.14.207</span></div>
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>5111</div>
+
+                  <div><span class="title">Node:</span>101</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                Domain hcpdr.samsungcard.com was deleted.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">A user deleted a domain.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+        <tr id="cp_expandrow_9_0" class="cp_expandrow even Notice">
+          <td class="user cp_expand">service</td>
+
+            <td class="severity cp_expand">Notice</td>
+
+          <td class="date cp_expand" style="white-space: nowrap;">1/17/2023 10:18AM</td>
+
+            <td class="event cp_expand">SSL server certificate deleted</td>
+
+        </tr>
+        <!-- Expandable Row Information -->
+        <tr id="cp_expandinfo_9_0" class="cp_expandinfo dontSetWidths">
+          <td colspan="4">
+            <div class="content" style="display: none; border:1px solid #666666; width:99.5% !important;">
+              <div style="background-color: #d7d8d9; width:100%; float:left; border-top:1px solid #FFFFFF;">
+                <div style="padding: 2px 25px 2px 5px;  float: left;"><span class="title">User ID:</span>45f12198-0e21-4de5-ad8d-5cf96111fd17</div>
+
+                  <div style="padding: 2px 25px 2px 0px; float:left;"><span class="title" style="width:40px;">Port:</span><span style="color:#666666">8000</span></div>
+
+
+                  <div style="padding: 2px 25px 2px 5px; float: left;"><span class="title" style="width:90px;">Originating IP:</span><span style="color:#666666">40.1.14.207</span></div>
+
+              </div>
+
+              <div class="col1">
+                <div><span class="title">Event ID:</span>2409</div>
+
+                  <div><span class="title">Node:</span>101</div>
+
+
+              </div>
+
+              <div class="col2" style="width: 310px;">
+                SSL server certificate CN=*.hcpdr.samsungcard.com, OU=HCP, O=Hitachi, L=Waltham, ST=Massachusetts, C=US (fingerprint: 72abc7003651fe1d5518e61a5610e29c) was deleted.<br /><br />
+
+                <!-- adding the action only for severe and warning logs -->
+                <div style="width: 100%">
+                  <div style="width: 60px; display: inline-block; float: left"><strong>Reason: </strong></div>
+                  <div style="display: inline-block; width: 80%">A user deleted an SSL server certificate.</div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+
+
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <!-- Footer -->
+  <div class="cp-footer" style="position: relative">
+    <div class="cp-footercap"><span></span></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+  HCP_ADMIN.getScriptAndPerform("LogViewer", "/etc/js/hcap/logViewer.js?version=9.4.0.267-",
+        "init", ['0', 'majorEvents', false]);
+
+</script>
+
